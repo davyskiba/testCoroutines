@@ -10,7 +10,7 @@ abstract class BasePresenter<T> {
      * Method that control the lifecycle of the view. It should be called in the view's
      * onAttachedToWindow() method.
      */
-    open fun attach(view: T) {
+    open suspend fun attach(view: T) {
         this.view = view
         isViewResumed = true
     }
@@ -19,7 +19,7 @@ abstract class BasePresenter<T> {
      * Method that control the lifecycle of the view. It should be called in the view's
      * onDetachedFromWindow() method.
      */
-    open fun detach() {
+    open suspend fun detach() {
         isViewResumed = false
         view = null
     }
