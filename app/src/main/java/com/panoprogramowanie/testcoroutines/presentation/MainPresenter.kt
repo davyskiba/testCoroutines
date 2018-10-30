@@ -1,22 +1,17 @@
 package com.panoprogramowanie.testcoroutines.presentation
 
 import com.panoprogramowanie.testcoroutines.MainInteractor
-import kotlinx.coroutines.experimental.CoroutineDispatcher
-import kotlinx.coroutines.experimental.launch
 
 class MainPresenter(
-    private val mainInteractor: MainInteractor,
-    baseCoroutineDispatcher: CoroutineDispatcher
-) : BasePresenter<MainView>(baseCoroutineDispatcher) {
+    private val mainInteractor: MainInteractor
+) : BasePresenter<MainView>() {
 
     fun onButtonClicked() {
-        view?.showConfirmationDialog { onConfirmed() }
+        view?.showConfirmationDialog()
     }
 
-    private fun onConfirmed() {
-        launch {
-            val title = mainInteractor.getTitle()
-            view?.showTitle(title)
-        }
+    suspend fun onConfirmed() {
+        val title = mainInteractor.getTitle()
+        view?.showTitle(title)
     }
 }

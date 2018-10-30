@@ -1,15 +1,6 @@
 package com.panoprogramowanie.testcoroutines.presentation
 
-import kotlinx.coroutines.experimental.CoroutineDispatcher
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Job
-import kotlin.coroutines.experimental.CoroutineContext
-
-abstract class BasePresenter<T>(private val baseCoroutineDispatcher: CoroutineDispatcher) : CoroutineScope {
-
-    lateinit var job: Job
-    override val coroutineContext: CoroutineContext
-        get() = baseCoroutineDispatcher + job
+abstract class BasePresenter<T> {
 
     var view: T? = null
 
@@ -21,7 +12,6 @@ abstract class BasePresenter<T>(private val baseCoroutineDispatcher: CoroutineDi
      */
     open fun attach(view: T) {
         this.view = view
-        job = Job()
         isViewResumed = true
     }
 
@@ -32,6 +22,5 @@ abstract class BasePresenter<T>(private val baseCoroutineDispatcher: CoroutineDi
     open fun detach() {
         isViewResumed = false
         view = null
-        job.cancel()
     }
 }

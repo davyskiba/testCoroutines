@@ -1,12 +1,10 @@
 package com.panoprogramowanie.testcoroutines.presentation
 
 import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.panoprogramowanie.testcoroutines.DependencyInjector
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.joinChildren
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,17 +22,18 @@ internal class MainPresenterTest {
     }
 
     @Test
-    fun onButtonClicked() = runBlocking {
+    fun onButtonClickedShowsDialog() {
         presenter.attach(view)
 
         presenter.onButtonClicked()
-        argumentCaptor<() -> Unit> {
-            verify(view).showConfirmationDialog(capture())
+        verify(view).showConfirmationDialog()
+    }
 
-            firstValue.invoke()
-        }
+    @Test
+    fun onDialogConfirmedShowTitle() = runBlocking {
+        presenter.attach(view)
 
-        presenter.job.joinChildren()
+        presenter.onConfirmed()
         verify(view).showTitle(any())
     }
 }

@@ -6,9 +6,20 @@ import android.support.v7.app.AppCompatActivity
 import com.panoprogramowanie.testcoroutines.DependencyInjector
 import com.panoprogramowanie.testcoroutines.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.launch
+import kotlin.coroutines.experimental.CoroutineContext
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity(), MainView, CoroutineScope {
 
+    lateinit var job: Job
+
+    override val coroutineContext: CoroutineContext
+        get() = baseCoroutineScope + job
+
+
+    private val baseCoroutineScope by lazy { DependencyInjector.getUIDispatcher() }
     private val presenter by lazy { DependencyInjector.getMainPresenter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,11 +30,15 @@ class MainActivity : AppCompatActivity(), MainView {
         button.setOnClickListener { presenter.onButtonClicked() }
     }
 
-    override fun showConfirmationDialog(onConfirm: () -> Unit) {
+    override fun showConfirmationDialog() {
         AlertDialog.Builder(this)
             .setTitle("Doing thingy")
             .setMessage("Are you sure?")
-            .setPositiveButton("yes") { _, _ -> onConfirm.invoke() }
+            .setPositiveButton("yes") { _, _ ->
+                launch {
+                    presenter.onConfirmed()
+                }
+            }
             .create()
             .show()
     }

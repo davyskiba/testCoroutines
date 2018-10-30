@@ -4,14 +4,9 @@ import android.support.annotation.VisibleForTesting
 import com.panoprogramowanie.testcoroutines.presentation.MainPresenter
 import kotlinx.coroutines.experimental.CoroutineDispatcher
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.android.Main
 
 object DependencyInjector {
-    fun getMainPresenter(
-        mainInteractor: MainInteractor = getMainInteractor(),
-        coroutineDispatcher: CoroutineDispatcher = getUIDispatcher()
-    ) = MainPresenter(mainInteractor, coroutineDispatcher)
+    fun getMainPresenter(mainInteractor: MainInteractor = getMainInteractor()) = MainPresenter(mainInteractor)
 
     fun getMainInteractor(mainRepository: MainRepository = getMainRepository()) = MainInteractor(mainRepository)
     fun getMainRepository(coroutineDispatcher: CoroutineDispatcher = getIODispatcher()) =
