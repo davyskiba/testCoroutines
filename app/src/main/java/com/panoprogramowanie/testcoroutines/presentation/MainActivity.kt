@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.panoprogramowanie.testcoroutines.DependencyInjector
 import com.panoprogramowanie.testcoroutines.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.coroutines.experimental.suspendCoroutine
 
 class MainActivity : AppCompatActivity(), MainView {
 
@@ -19,15 +20,15 @@ class MainActivity : AppCompatActivity(), MainView {
         button.setOnClickListener { presenter.onButtonClicked() }
     }
 
-    override fun showConfirmationDialog(onConfirm: () -> Unit) {
+    override suspend fun showConfirmationDialog(): Unit = suspendCoroutine {
         AlertDialog.Builder(this)
             .setTitle("Doing thingy")
             .setMessage("Are you sure?")
-            .setPositiveButton("yes") { _, _ -> onConfirm.invoke() }
+            .setPositiveButton("yes") { _, _ -> it.resume(Unit) }
+            .setOnDismissListener { it.cancel() }
             .create()
             .show()
     }
-
 
     override fun showTitle(titleText: String) {
         hello.text = titleText

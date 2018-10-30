@@ -10,16 +10,8 @@ class MainPresenter(
 ) : BasePresenter<MainView>(baseCoroutineDispatcher) {
 
     fun onButtonClicked() = launch {
+        view?.showConfirmationDialog()
         val title = mainInteractor.getTitle()
         view?.showTitle(title)
-    fun onButtonClicked() {
-        view?.showConfirmationDialog { onConfirmed() }
-    }
-
-    private fun onConfirmed() {
-        launch {
-            val title = mainInteractor.getTitle()
-            view?.showTitle(title)
-        }
     }
 }

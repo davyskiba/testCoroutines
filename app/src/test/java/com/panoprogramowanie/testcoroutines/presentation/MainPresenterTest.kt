@@ -1,9 +1,6 @@
 package com.panoprogramowanie.testcoroutines.presentation
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.argumentCaptor
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import com.panoprogramowanie.testcoroutines.DependencyInjector
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.runBlocking
@@ -26,12 +23,8 @@ internal class MainPresenterTest {
     fun onButtonClicked() = runBlocking {
         presenter.attach(view)
 
-        presenter.onButtonClicked()
-        argumentCaptor<() -> Unit> {
-            verify(view).showConfirmationDialog(capture())
+        presenter.onButtonClicked().join()
 
-            firstValue.invoke()
-        }
 
         verify(view).showTitle(any())
     }
