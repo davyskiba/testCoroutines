@@ -12,5 +12,14 @@ class MainPresenter(
     fun onButtonClicked() = launch {
         val title = mainInteractor.getTitle()
         view?.showTitle(title)
+    fun onButtonClicked() {
+        view?.showConfirmationDialog { onConfirmed() }
+    }
+
+    private fun onConfirmed() {
+        launch {
+            val title = mainInteractor.getTitle()
+            view?.showTitle(title)
+        }
     }
 }
