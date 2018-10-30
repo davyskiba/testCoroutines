@@ -30,14 +30,12 @@ class MainActivity : AppCompatActivity(), MainView, CoroutineScope {
         button.setOnClickListener { presenter.onButtonClicked() }
     }
 
-    override fun showConfirmationDialog() {
+    override fun showConfirmationDialog(onConfirm: suspend () -> Unit) {
         AlertDialog.Builder(this)
             .setTitle("Doing thingy")
             .setMessage("Are you sure?")
             .setPositiveButton("yes") { _, _ ->
-                launch {
-                    presenter.onConfirmed()
-                }
+                launch { onConfirm.invoke() }
             }
             .create()
             .show()

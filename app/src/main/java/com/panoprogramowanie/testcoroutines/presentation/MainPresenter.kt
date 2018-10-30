@@ -7,10 +7,10 @@ class MainPresenter(
 ) : BasePresenter<MainView>() {
 
     fun onButtonClicked() {
-        view?.showConfirmationDialog()
+        view?.showConfirmationDialog { onConfirmed() }
     }
 
-    suspend fun onConfirmed() {
+    private suspend fun onConfirmed() {
         val title = mainInteractor.getTitle()
         view?.showTitle(title)
     }

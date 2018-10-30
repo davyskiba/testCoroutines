@@ -2,5 +2,5 @@ package com.panoprogramowanie.testcoroutines.presentation
 
 interface MainView {
     fun showTitle(title: String)
-    fun showConfirmationDialog()
+    fun showConfirmationDialog(onConfirm: suspend () -> Unit)
 }
