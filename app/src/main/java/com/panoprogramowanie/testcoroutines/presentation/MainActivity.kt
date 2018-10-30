@@ -1,5 +1,6 @@
 package com.panoprogramowanie.testcoroutines.presentation
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.panoprogramowanie.testcoroutines.DependencyInjector
@@ -17,6 +18,16 @@ class MainActivity : AppCompatActivity(), MainView {
 
         button.setOnClickListener { presenter.onButtonClicked() }
     }
+
+    override fun showConfirmationDialog(onConfirm: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle("Doing thingy")
+            .setMessage("Are you sure?")
+            .setPositiveButton("yes") { _, _ -> onConfirm.invoke() }
+            .create()
+            .show()
+    }
+
 
     override fun showTitle(titleText: String) {
         hello.text = titleText
