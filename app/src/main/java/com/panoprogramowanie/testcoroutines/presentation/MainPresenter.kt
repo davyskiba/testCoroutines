@@ -9,10 +9,8 @@ class MainPresenter(
     baseCoroutineDispatcher: CoroutineDispatcher
 ) : BasePresenter<MainView>(baseCoroutineDispatcher) {
 
-    fun onButtonClicked() {
-        launch {
-            val title = mainInteractor.getTitle()
-            view?.showTitle(title)
-        }
+    fun onButtonClicked() = launch {
+        val title = mainInteractor.getTitle()
+        view?.showTitle(title)
     }
 }

@@ -5,7 +5,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.panoprogramowanie.testcoroutines.DependencyInjector
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.joinChildren
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,9 +25,8 @@ internal class MainPresenterTest {
     fun onButtonClicked() = runBlocking {
         presenter.attach(view)
 
-        presenter.onButtonClicked()
+        presenter.onButtonClicked().join()
 
-        presenter.job.joinChildren()
         verify(view).showTitle(any())
     }
 }
